@@ -1,3 +1,3 @@
 export default function Home() {
-  return <main>sth</main>;
+    return <main className='ml-2'>sth</main>;
 }
