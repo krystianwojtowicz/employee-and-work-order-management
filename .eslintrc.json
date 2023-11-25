@@ -1,0 +1,92 @@
+{
+  "extends": ["next", "prettier"],
+  "plugins": ["react", "@typescript-eslint", "simple-import-sort"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "experimentalDecorators": true,
+    "project": ["./tsconfig.json"]
+  },
+  "rules": {
+    "newline-per-chained-call": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "linebreak-style": "off",
+    "semi": "off",
+    "@typescript-eslint/semi": "off",
+    "no-console": "off",
+    "react/function-component-definition": "off",
+    "jsx-quotes": ["error", "prefer-single"],
+    "react/jsx-props-no-spreading": "off",
+    "import/no-anonymous-default-export": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "object-curly-newline": "off",
+    "no-restricted-exports": "off",
+    "no-nested-ternary": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 140,
+        "ignoreComments": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreStrings": true
+      }
+    ],
+    "react/require-default-props": "off",
+    "@typescript-eslint/indent": "off",
+    "import/prefer-default-export": "off",
+    "arrow-parens": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "no-underscore-dangle": "off",
+    "import/order": "off",
+    "no-param-reassign": "off",
+    "prefer-destructuring": "off",
+    "react/destructuring-assignment": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/react-in-jsx-scope": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-confusing-arrow": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "prefer-regex-literals": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
+    "no-plusplus": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "no-restricted-globals": "off",
+    "@typescript-eslint/lines-between-class-members": "off",
+    "class-methods-use-this": "off",
+    "import/extensions": 0,
+    "array-callback-return": "off",
+    "no-return-assign": "off",
+
+    "consistent-return": "off",
+    "react/jsx-max-props-per-line": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "rules": {
+        "comma-dangle": ["error", "always-multiline"],
+        "implicit-arrow-linebreak": "off",
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              [
+                "^react",
+                "^@?\\w",
+                "^(@|components)(/.*|$)",
+                "^\\u0000",
+                "^\\.\\.(?!/?$)",
+                "^\\.\\./?$",
+                "^\\./(?=.*/)(?!/?$)",
+                "^\\.(?!/?$)",
+                "^\\./?$",
+                "^.+\\.?(css)$"
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
