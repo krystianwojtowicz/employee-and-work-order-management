@@ -1,3 +1,6 @@
+import { redirect } from 'next/navigation';
+
 export default function Home() {
-    return <main className='ml-2'>sth</main>;
+    redirect('/home');
+    return <main></main>;
 }
