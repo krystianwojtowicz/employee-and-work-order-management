@@ -5,36 +5,18 @@ import {
     stringOrDate,
 } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
-import { collection, getDocs } from 'firebase/firestore';
 import moment from 'moment';
-import { firestore } from '../api/firebase';
+import { formatDate } from '../../helpers/formatDate';
+import { editEvent, EventItem, getEvents } from '../api/events';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const localizer = momentLocalizer(moment);
 
-const exampleEvents = [
-    {
-        title: 'Big Meeting',
-        start: new Date('2023-11-28T09:00:00'),
-        end: new Date('2023-11-28T10:00:00'),
-        id: '1',
-        isDraggable: true,
-    },
-];
-
-type EventItem = {
-    start: Date | string;
-    end: Date | string;
-    id: string;
-    title: string;
-    isDraggable: boolean;
-};
-
 const DnDCalendar = withDragAndDrop<EventItem>(BigCalendar);
 
 export const DragAndDrop = () => {
-    const [events, setEvents] = useState<EventItem[]>(exampleEvents);
+    const [events, setEvents] = useState<EventItem[]>([]);
 
     const onChangeEventItem = ({
         event,
@@ -52,31 +34,27 @@ export const DragAndDrop = () => {
                     : prevEvent
             )
         );
+        delete event.sourceResource;
+
+        event.start = formatDate(start);
+        event.end = formatDate(end);
+
+        editEvent(event.id, event);
     };
 
-    const eventsCollectionRef = collection(firestore, 'events');
-
     useEffect(() => {
-        const getEvents = async () => {
-            try {
-                const data = await getDocs(eventsCollectionRef);
-                const filteredData = data.docs.map((doc) => ({
-                    ...doc.data(),
-                    id: doc.id,
-                }));
-                console.log(filteredData);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        getEvents();
+        getEvents().then((data) => {
+            if (data) setEvents(data);
+        });
     }, []);
     return (
         <DnDCalendar
             events={events}
             localizer={localizer}
             onEventDrop={onChangeEventItem}
-            style={{ height: 500, margin: '50px' }}
+            className='m-4 sm:m-8 md:m-12 lg:m-16 xl:m-20 2xl:m-24'
+            style={{ height: 500 }}
+            views={['month', 'day', 'week']}
         ></DnDCalendar>
     );
 };
