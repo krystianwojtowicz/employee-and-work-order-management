@@ -1,14 +1,14 @@
 import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { firestore } from '../api/firebase';
 
-export type EventItem = {
+export interface EventItem {
     sourceResource?: string;
     start: Date | string;
     end: Date | string;
     id: string;
     title: string;
     isDraggable: boolean;
-};
+}
 
 const eventsCollectionRef = collection(firestore, 'events');
 
