@@ -4,3 +4,7 @@ export enum Person {
     POSITION = 'position',
     EMAIL = 'email',
 }
+
+export enum Description {
+    DESCRIPTION = 'description',
+}

@@ -5,7 +5,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { Person } from '../../helpers/enums';
 import { createUser, signUpWithEmail } from '../api/users';
 import { Button } from '../components/Button';
-import { TextInputWithLabel } from '../components/TextInputWithLabel';
+import { FormWrapper } from '../components/FormWrapper';
+import { TextInput } from '../components/TextInput';
 
 interface FormValues {
     name: string;
@@ -49,7 +50,6 @@ export default function SignUp() {
     }, [arePasswordsTheSame]);
 
     const onSubmit = async (data: FormValues): Promise<void> => {
-        console.log(data);
         const { email, password, passwordConfirmation, ...rest } = data;
         const dataWithoutPassword = { email, ...rest };
         try {
@@ -73,8 +73,7 @@ export default function SignUp() {
 
     return (
         <>
-            <main className='m-auto mt-[50px] w-[300px]'>
-                <h1 className='text-center'>sign up</h1>
+            <FormWrapper title='sign up'>
                 <form onSubmit={handleClick}>
                     <Controller
                         name={Person.NAME}
@@ -82,7 +81,7 @@ export default function SignUp() {
                         defaultValue=''
                         rules={{ required: true }}
                         render={() => (
-                            <TextInputWithLabel
+                            <TextInput
                                 placeholder={'Type your name'}
                                 type={'text'}
                                 label={'Name'}
@@ -101,7 +100,7 @@ export default function SignUp() {
                         defaultValue=''
                         rules={{ required: true }}
                         render={() => (
-                            <TextInputWithLabel
+                            <TextInput
                                 placeholder={'Type your last name'}
                                 type={'text'}
                                 label={'Last name'}
@@ -120,7 +119,7 @@ export default function SignUp() {
                         defaultValue=''
                         rules={{ required: true }}
                         render={() => (
-                            <TextInputWithLabel
+                            <TextInput
                                 placeholder={'Type your position'}
                                 type={'text'}
                                 label={'Position'}
@@ -139,7 +138,7 @@ export default function SignUp() {
                         defaultValue=''
                         rules={{ required: true }}
                         render={() => (
-                            <TextInputWithLabel
+                            <TextInput
                                 placeholder={'Type your e-mail'}
                                 type={'text'}
                                 label={'E-mail'}
@@ -158,7 +157,7 @@ export default function SignUp() {
                         defaultValue=''
                         rules={{ required: true }}
                         render={() => (
-                            <TextInputWithLabel
+                            <TextInput
                                 placeholder={'Type your password'}
                                 type={'password'}
                                 label={'Password'}
@@ -177,7 +176,7 @@ export default function SignUp() {
                         defaultValue=''
                         rules={{ required: true }}
                         render={() => (
-                            <TextInputWithLabel
+                            <TextInput
                                 placeholder={'Confirm your password'}
                                 type={'password'}
                                 label={'Confirm password'}
@@ -195,14 +194,14 @@ export default function SignUp() {
                     )}
                     <div className='flex justify-center'>
                         <Button type='submit' title='sign up'></Button>
-                        {error && (
-                            <span className='mt-[5px] text-xs text-red'>
-                                {error}
-                            </span>
-                        )}
                     </div>
+                    {error && (
+                        <span className='mt-[5px] flex w-full text-center text-xs text-red'>
+                            {error}
+                        </span>
+                    )}
                 </form>
-            </main>
+            </FormWrapper>
         </>
     );
 }
