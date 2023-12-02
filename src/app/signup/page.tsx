@@ -36,6 +36,7 @@ export default function SignUp() {
     });
     const password = watch('password');
     const passwordConfirmation = watch('passwordConfirmation');
+
     const [arePasswordsTheSame, setArePasswordsTheSame] =
         useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
@@ -48,6 +49,7 @@ export default function SignUp() {
     }, [arePasswordsTheSame]);
 
     const onSubmit = async (data: FormValues): Promise<void> => {
+        console.log(data);
         const { email, password, passwordConfirmation, ...rest } = data;
         const dataWithoutPassword = { email, ...rest };
         try {
@@ -62,142 +64,145 @@ export default function SignUp() {
         }
     };
 
-    const handleClick = () => {
+    const handleClick = (e: React.FormEvent) => {
+        e.preventDefault();
         setSubmitted(true);
         const passwordsAreSame = password === passwordConfirmation;
         setArePasswordsTheSame(passwordsAreSame);
     };
 
     return (
-        <div>
+        <>
             <main className='m-auto mt-[50px] w-[300px]'>
                 <h1 className='text-center'>sign up</h1>
-                <Controller
-                    name={Person.NAME}
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: true }}
-                    render={() => (
-                        <TextInputWithLabel
-                            placeholder={'Type your name'}
-                            type={'text'}
-                            label={'Name'}
-                            register={register(Person.NAME)}
-                        />
-                    )}
-                />
-                {errors?.name && (
-                    <span className='mt-[5px] text-xs text-red'>
-                        This filed is required
-                    </span>
-                )}
-                <Controller
-                    name={Person.LAST_NAME}
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: true }}
-                    render={() => (
-                        <TextInputWithLabel
-                            placeholder={'Type your last name'}
-                            type={'text'}
-                            label={'Last name'}
-                            register={register(Person.LAST_NAME)}
-                        />
-                    )}
-                />
-                {errors?.lastName && (
-                    <span className='mt-[5px] text-xs text-red'>
-                        This filed is required
-                    </span>
-                )}
-                <Controller
-                    name={Person.POSITION}
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: true }}
-                    render={() => (
-                        <TextInputWithLabel
-                            placeholder={'Type your position'}
-                            type={'text'}
-                            label={'Position'}
-                            register={register(Person.POSITION)}
-                        />
-                    )}
-                />
-                {errors?.position && (
-                    <span className='mt-[5px] text-xs text-red'>
-                        This filed is required
-                    </span>
-                )}
-                <Controller
-                    name={Person.EMAIL}
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: true }}
-                    render={() => (
-                        <TextInputWithLabel
-                            placeholder={'Type your e-mail'}
-                            type={'text'}
-                            label={'E-mail'}
-                            register={register(Person.EMAIL)}
-                        />
-                    )}
-                />
-                {errors?.email && (
-                    <span className='mt-[5px] text-xs text-red'>
-                        This filed is required
-                    </span>
-                )}
-                <Controller
-                    name='password'
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: true }}
-                    render={() => (
-                        <TextInputWithLabel
-                            placeholder={'Type your password'}
-                            type={'password'}
-                            label={'Password'}
-                            register={register('password')}
-                        />
-                    )}
-                />
-                {errors?.password && (
-                    <span className='mt-[5px] text-xs text-red'>
-                        This filed is required
-                    </span>
-                )}
-                <Controller
-                    name='passwordConfirmation'
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: true }}
-                    render={() => (
-                        <TextInputWithLabel
-                            placeholder={'Confirm your password'}
-                            type={'password'}
-                            label={'Confirm password'}
-                            register={register('passwordConfirmation')}
-                        />
-                    )}
-                />
-                {(errors?.passwordConfirmation ||
-                    (submitted && !arePasswordsTheSame)) && (
-                    <span className='mt-[5px] text-xs text-red'>
-                        {errors?.passwordConfirmation
-                            ? 'This field is required'
-                            : 'Passwords are different'}
-                    </span>
-                )}
-                <div className='flex justify-center'>
-                    <Button handleClick={handleClick} title='sign up'></Button>
-                    {error && (
+                <form onSubmit={handleClick}>
+                    <Controller
+                        name={Person.NAME}
+                        control={control}
+                        defaultValue=''
+                        rules={{ required: true }}
+                        render={() => (
+                            <TextInputWithLabel
+                                placeholder={'Type your name'}
+                                type={'text'}
+                                label={'Name'}
+                                register={register(Person.NAME)}
+                            />
+                        )}
+                    />
+                    {errors?.name && (
                         <span className='mt-[5px] text-xs text-red'>
-                            {error}
+                            This filed is required
                         </span>
                     )}
-                </div>
+                    <Controller
+                        name={Person.LAST_NAME}
+                        control={control}
+                        defaultValue=''
+                        rules={{ required: true }}
+                        render={() => (
+                            <TextInputWithLabel
+                                placeholder={'Type your last name'}
+                                type={'text'}
+                                label={'Last name'}
+                                register={register(Person.LAST_NAME)}
+                            />
+                        )}
+                    />
+                    {errors?.lastName && (
+                        <span className='mt-[5px] text-xs text-red'>
+                            This filed is required
+                        </span>
+                    )}
+                    <Controller
+                        name={Person.POSITION}
+                        control={control}
+                        defaultValue=''
+                        rules={{ required: true }}
+                        render={() => (
+                            <TextInputWithLabel
+                                placeholder={'Type your position'}
+                                type={'text'}
+                                label={'Position'}
+                                register={register(Person.POSITION)}
+                            />
+                        )}
+                    />
+                    {errors?.position && (
+                        <span className='mt-[5px] text-xs text-red'>
+                            This filed is required
+                        </span>
+                    )}
+                    <Controller
+                        name={Person.EMAIL}
+                        control={control}
+                        defaultValue=''
+                        rules={{ required: true }}
+                        render={() => (
+                            <TextInputWithLabel
+                                placeholder={'Type your e-mail'}
+                                type={'text'}
+                                label={'E-mail'}
+                                register={register(Person.EMAIL)}
+                            />
+                        )}
+                    />
+                    {errors?.email && (
+                        <span className='mt-[5px] text-xs text-red'>
+                            This filed is required
+                        </span>
+                    )}
+                    <Controller
+                        name='password'
+                        control={control}
+                        defaultValue=''
+                        rules={{ required: true }}
+                        render={() => (
+                            <TextInputWithLabel
+                                placeholder={'Type your password'}
+                                type={'password'}
+                                label={'Password'}
+                                register={register('password')}
+                            />
+                        )}
+                    />
+                    {errors?.password && (
+                        <span className='mt-[5px] text-xs text-red'>
+                            This filed is required
+                        </span>
+                    )}
+                    <Controller
+                        name='passwordConfirmation'
+                        control={control}
+                        defaultValue=''
+                        rules={{ required: true }}
+                        render={() => (
+                            <TextInputWithLabel
+                                placeholder={'Confirm your password'}
+                                type={'password'}
+                                label={'Confirm password'}
+                                register={register('passwordConfirmation')}
+                            />
+                        )}
+                    />
+                    {(errors?.passwordConfirmation ||
+                        (submitted && !arePasswordsTheSame)) && (
+                        <span className='mt-[5px] text-xs text-red'>
+                            {errors?.passwordConfirmation
+                                ? 'This field is required'
+                                : 'Passwords are different'}
+                        </span>
+                    )}
+                    <div className='flex justify-center'>
+                        <Button type='submit' title='sign up'></Button>
+                        {error && (
+                            <span className='mt-[5px] text-xs text-red'>
+                                {error}
+                            </span>
+                        )}
+                    </div>
+                </form>
             </main>
-        </div>
+        </>
     );
 }
