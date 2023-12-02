@@ -8,7 +8,7 @@ interface ITextInput {
     register?: UseFormRegisterReturn;
 }
 
-export const TextInputWithLabel = ({
+export const TextInput = ({
     placeholder,
     type,
     register,

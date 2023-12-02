@@ -6,7 +6,7 @@ import {
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { auth, firestore } from '../api/firebase';
 
-export interface User {
+interface User {
     name: string;
     lastName: string;
     position: string;
