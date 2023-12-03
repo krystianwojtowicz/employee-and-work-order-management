@@ -11,6 +11,7 @@ interface User {
     lastName: string;
     position: string;
     email: string;
+    emailOfYourBoss: string;
     id?: string;
 }
 

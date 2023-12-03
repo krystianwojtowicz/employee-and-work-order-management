@@ -13,6 +13,7 @@ interface FormValues {
     lastName: string;
     position: string;
     email: string;
+    emailOfYourBoss: string;
     password: string;
     passwordConfirmation: string;
     id: string;
@@ -31,6 +32,7 @@ export default function SignUp() {
             lastName: '',
             position: '',
             email: '',
+            emailOfYourBoss: '',
             password: '',
             passwordConfirmation: '',
         },
@@ -147,6 +149,25 @@ export default function SignUp() {
                         )}
                     />
                     {errors?.email && (
+                        <span className='mt-[5px] text-xs text-red'>
+                            This filed is required
+                        </span>
+                    )}
+                    <Controller
+                        name={Person.EMAIL_OF_YOUR_BOSS}
+                        control={control}
+                        defaultValue=''
+                        rules={{ required: true }}
+                        render={() => (
+                            <TextInput
+                                placeholder={'Type e-mail of your boss'}
+                                type={'text'}
+                                label={'E-mail of your boss'}
+                                register={register(Person.EMAIL_OF_YOUR_BOSS)}
+                            />
+                        )}
+                    />
+                    {errors?.emailOfYourBoss && (
                         <span className='mt-[5px] text-xs text-red'>
                             This filed is required
                         </span>
