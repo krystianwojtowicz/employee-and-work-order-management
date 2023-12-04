@@ -6,8 +6,8 @@ import {
 } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
+import { editEvent, EventItem, getEvents } from '../../api/events';
 import { formatDate } from '../../helpers/formatDate';
-import { editEvent, EventItem, getEvents } from '../api/events';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { createUser, signUpWithEmail } from '../../api/users';
 import { Person } from '../../helpers/enums';
-import { createUser, signUpWithEmail } from '../api/users';
 import { Button } from '../components/Button';
 import { FormWrapper } from '../components/FormWrapper';
 import { TextInput } from '../components/TextInput';

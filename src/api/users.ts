@@ -3,7 +3,14 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { collection, doc, setDoc } from 'firebase/firestore';
+import {
+    collection,
+    doc,
+    getDocs,
+    query,
+    setDoc,
+    where,
+} from 'firebase/firestore';
 import { auth, firestore } from '../api/firebase';
 
 interface User {
@@ -14,6 +21,21 @@ interface User {
     emailOfYourBoss: string;
     id?: string;
 }
+
+export const getUser = async (email: string) => {
+    try {
+        const usersCollection = collection(firestore, 'users');
+        const q = query(usersCollection, where('email', '==', email));
+        const querySnapshot = await getDocs(q);
+
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data();
+        console.log(userData);
+        return userData;
+    } catch (error) {
+        throw error;
+    }
+};
 
 //validation to fix
 export const signInWithEmail = async (

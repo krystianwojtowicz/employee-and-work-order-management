@@ -2,8 +2,9 @@
 
 import { ChangeEvent, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { addTask, handleSavePhoto, Task } from '../../api/tasks';
+import { getUser } from '../../api/users';
 import { Description } from '../../helpers/enums';
-import { addTask, handleSavePhoto, Task } from '../api/tasks';
 import { Button } from '../components/Button';
 import { FormWrapper } from '../components/FormWrapper';
 import { TextArea } from '../components/TextArea';
@@ -38,7 +39,6 @@ export default function AddTask() {
             setImgUpload(files[0]);
         }
     };
-
     return (
         <>
             <FormWrapper title='add task'>
