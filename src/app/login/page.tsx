@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { signInWithEmail } from '../../api/users';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { setUserEmail } from '@/store/usersSlice';
+import { getUser, signInWithEmail } from '../../api/users';
 import { Person } from '../../helpers/enums';
 import { Button } from '../components/Button';
 import { FormWrapper } from '../components/FormWrapper';
@@ -26,13 +29,18 @@ export default function LogIn() {
         },
     });
     const [error, setError] = useState<string>('');
+    const dispatch = useDispatch();
+    const router = useRouter();
 
     const onSubmit = async (data: FormValues): Promise<void> => {
         const { email, password } = data;
+
         try {
-            await signInWithEmail(email, password).then((id: string) => {
-                return id;
-            });
+            const userData = await getUser(email);
+            dispatch(setUserEmail(userData.emailOfYourBoss));
+
+            await signInWithEmail(email, password);
+            router.push('/addtask');
         } catch (error: any) {
             setError(error.message);
         }

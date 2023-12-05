@@ -30,7 +30,6 @@ export const getUser = async (email: string) => {
 
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
-        console.log(userData);
         return userData;
     } catch (error) {
         throw error;
