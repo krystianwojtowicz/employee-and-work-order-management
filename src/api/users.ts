@@ -30,14 +30,13 @@ export const getUser = async (email: string) => {
 
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
-        console.log(userData);
         return userData;
     } catch (error) {
         throw error;
     }
 };
 
-//validation to fix
+//ToDo validation to fix, and spaces in password
 export const signInWithEmail = async (
     email: string,
     password: string

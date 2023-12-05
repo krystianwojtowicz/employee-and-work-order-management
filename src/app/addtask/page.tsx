@@ -2,9 +2,10 @@
 
 import { ChangeEvent, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { addTask, handleSavePhoto, Task } from '../../api/tasks';
-import { getUser } from '../../api/users';
 import { Description } from '../../helpers/enums';
+import type { RootState } from '../../store/store';
 import { Button } from '../components/Button';
 import { FormWrapper } from '../components/FormWrapper';
 import { TextArea } from '../components/TextArea';
@@ -22,7 +23,10 @@ export default function AddTask() {
     });
     const [error, setError] = useState<string>('');
     const [imgUpload, setImgUpload] = useState<File | null>(null);
-
+    const emailOfBoss = useSelector(
+        (state: RootState) => state.users.emailOfBoss
+    );
+    console.log(emailOfBoss);
     const onSubmit = async (data: Task): Promise<void> => {
         try {
             const id = await addTask(data);
