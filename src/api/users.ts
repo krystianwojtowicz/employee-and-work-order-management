@@ -36,7 +36,7 @@ export const getUser = async (email: string) => {
     }
 };
 
-//validation to fix
+//ToDo validation to fix, and spaces in password
 export const signInWithEmail = async (
     email: string,
     password: string

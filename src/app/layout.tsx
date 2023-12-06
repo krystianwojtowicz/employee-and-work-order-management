@@ -1,14 +1,8 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+'use client';
+
 import { ReduxProvider } from '../Providers';
+import { Navbar } from './components/Navbar';
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-    title: 'Order Management',
-    description: 'Order management system',
-};
 
 export default function RootLayout({
     children,
@@ -18,7 +12,10 @@ export default function RootLayout({
     return (
         <html lang='en'>
             <ReduxProvider>
-                <body className={inter.className}>{children}</body>
+                <body>
+                    <Navbar />
+                    {children}
+                </body>
             </ReduxProvider>
         </html>
     );
