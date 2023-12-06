@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import hamburger from '../../assets/hamburger.png';
+// import hamburger from '../../assets/hamburger.png';
 
 export const Navbar = () => {
     const [nav, setNav] = useState(false);
@@ -59,14 +59,15 @@ export const Navbar = () => {
                                 >
                                     {nav ? (
                                         <Image
-                                            src={hamburger}
+                                            src={require('../../assets/hamburger.png')}
+                                            // src={hamburger}
                                             width={30}
                                             height={30}
                                             alt='logo'
                                         />
                                     ) : (
                                         <Image
-                                            src={hamburger}
+                                            src={require('../../assets/hamburger.png')}
                                             width={30}
                                             height={30}
                                             alt='logo'
