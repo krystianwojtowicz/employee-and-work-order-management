@@ -3,6 +3,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { firestore, storage } from '../api/firebase';
 
 export interface Task {
+    nameOfTask: string;
     description: string;
 }
 

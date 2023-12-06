@@ -1,23 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface CounterState {
+export interface UsersState {
     emailOfBoss: string;
+    notificationsOfBoss: string[];
+    notifications: string[];
 }
 
-const initialState: CounterState = {
+const initialState: UsersState = {
     emailOfBoss: '',
+    notificationsOfBoss: [],
+    notifications: [],
 };
 
 export const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        setUserEmail: (state, action) => {
-            state.emailOfBoss = action.payload;
+        setDataOfUsersBoss: (state, action) => {
+            state.emailOfBoss = action.payload.emailOfYourBoss;
+            state.notificationsOfBoss = action.payload.notifications;
+        },
+        setUserData: (state, action) => {
+            state.notifications = action.payload;
         },
     },
 });
 
-export const { setUserEmail } = usersSlice.actions;
+export const { setDataOfUsersBoss, setUserData } = usersSlice.actions;
 
 export default usersSlice.reducer;

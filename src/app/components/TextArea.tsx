@@ -15,7 +15,7 @@ export const TextArea = ({
     ...rest
 }: ITextArea) => {
     return (
-        <label className='block font-[Inter] text-[14px] font-[500] text-greenDark'>
+        <label className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>
             {label}
             <textarea
                 className='box-border w-[100%] items-center rounded-[10px] border-[1px] border-solid border-greyDark bg-greyLight px-[20px] py-[12px] text-[14px] text-greenDark focus:outline focus:outline-[1px] focus:outline-greenLight'

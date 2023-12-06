@@ -4,11 +4,13 @@ import {
     signInWithEmailAndPassword,
 } from 'firebase/auth';
 import {
+    arrayUnion,
     collection,
     doc,
     getDocs,
     query,
     setDoc,
+    updateDoc,
     where,
 } from 'firebase/firestore';
 import { auth, firestore } from '../api/firebase';
@@ -19,6 +21,7 @@ interface User {
     position: string;
     email: string;
     emailOfYourBoss: string;
+    notifications?: string[];
     id?: string;
 }
 
@@ -31,6 +34,37 @@ export const getUser = async (email: string) => {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
         return userData;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const updateUserByEmail = async (
+    email: string,
+    notification: string,
+    notifications: string[]
+) => {
+    try {
+        const usersCollection = collection(firestore, 'users');
+        const q = query(usersCollection, where('email', '==', email));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            throw new Error('User not found');
+        }
+
+        const userDoc = querySnapshot.docs[0];
+        const userId = userDoc.id;
+
+        const userDocRef = doc(usersCollection, userId);
+
+        if (notifications.length > 0) {
+            await updateDoc(userDocRef, {
+                notifications: arrayUnion(notification),
+            });
+        } else {
+            await updateDoc(userDocRef, { notifications: [notification] });
+        }
     } catch (error) {
         throw error;
     }
@@ -68,6 +102,7 @@ export const signInWithEmail = async (
 
 export const createUser = async (dataWithoutPassword: User, id: string) => {
     dataWithoutPassword.id = id;
+    dataWithoutPassword.notifications = [];
     const userRef = doc(collection(firestore, 'users'), id);
     await setDoc(userRef, dataWithoutPassword);
 };

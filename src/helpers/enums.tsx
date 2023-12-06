@@ -7,5 +7,6 @@ export enum Person {
 }
 
 export enum Description {
+    NAME_OF_TASK = 'nameOfTask',
     DESCRIPTION = 'description',
 }

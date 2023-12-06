@@ -6,7 +6,7 @@ export const FormWrapper = ({
     title: string;
 }) => {
     return (
-        <main className='m-auto mt-[50px] w-[300px]'>
+        <main className='m-auto mt-[122px] w-[300px]'>
             <h1 className='text-center text-2xl font-bold'>{title}</h1>
             {children}
         </main>

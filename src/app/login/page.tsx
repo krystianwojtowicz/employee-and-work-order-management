@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { setUserEmail } from '@/store/usersSlice';
+import { setDataOfUsersBoss, setUserData } from '@/store/usersSlice';
 import { getUser, signInWithEmail } from '../../api/users';
 import { Person } from '../../helpers/enums';
 import { Button } from '../components/Button';
@@ -37,10 +37,17 @@ export default function LogIn() {
 
         try {
             const userData = await getUser(email);
-            dispatch(setUserEmail(userData.emailOfYourBoss));
+            const { emailOfYourBoss, notifications } = userData;
+            // const usersBossData = await getUser(emailOfYourBoss);
+            // const { notificationsOfBoss } = usersBossData;
+
+            // dispatch(
+            //     setDataOfUsersBoss({ emailOfYourBoss, notificationsOfBoss })
+            // );
+            dispatch(setUserData(notifications));
 
             await signInWithEmail(email, password);
-            router.push('/addtask');
+            router.push('/home');
         } catch (error: any) {
             setError(error.message);
         }
