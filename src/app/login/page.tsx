@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { setDataOfUsersBoss, setUserData } from '@/store/usersSlice';
+import { getUser, signInWithEmail } from '../../api/users';
 import { Person } from '../../helpers/enums';
-import { signInWithEmail } from '../api/users';
 import { Button } from '../components/Button';
 import { FormWrapper } from '../components/FormWrapper';
 import { TextInput } from '../components/TextInput';
@@ -26,13 +29,25 @@ export default function LogIn() {
         },
     });
     const [error, setError] = useState<string>('');
+    const dispatch = useDispatch();
+    const router = useRouter();
 
     const onSubmit = async (data: FormValues): Promise<void> => {
         const { email, password } = data;
+
         try {
-            await signInWithEmail(email, password).then((id: string) => {
-                return id;
-            });
+            const userData = await getUser(email);
+            const { emailOfYourBoss, notifications } = userData;
+            const usersBossData = await getUser(emailOfYourBoss);
+            const { notificationsOfBoss } = usersBossData;
+
+            dispatch(
+                setDataOfUsersBoss({ emailOfYourBoss, notificationsOfBoss })
+            );
+            dispatch(setUserData({ notifications, email }));
+
+            await signInWithEmail(email, password);
+            router.push('/home');
         } catch (error: any) {
             setError(error.message);
         }
