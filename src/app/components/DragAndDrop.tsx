@@ -6,32 +6,30 @@ import {
 } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
-import { editEvent, EventItem, getEvents } from '../../api/events';
+import { editTask, getTasks, TaskItem } from '../../api/events';
 import { formatDate } from '../../helpers/formatDate';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const localizer = momentLocalizer(moment);
 
-const DnDCalendar = withDragAndDrop<EventItem>(BigCalendar);
+const DnDCalendar = withDragAndDrop<TaskItem>(BigCalendar);
 
 export const DragAndDrop = () => {
-    const [events, setEvents] = useState<EventItem[]>([]);
+    const [tasks, setTasks] = useState<TaskItem[]>([]);
 
-    const onChangeEventItem = ({
+    const onChangeTaskItem = ({
         event,
         start,
         end,
     }: {
-        event: EventItem;
+        event: TaskItem;
         start: stringOrDate;
         end: stringOrDate;
     }) => {
-        setEvents((prevEvents) =>
-            prevEvents.map((prevEvent) =>
-                prevEvent.id === event?.id
-                    ? { ...event, start, end }
-                    : prevEvent
+        setTasks((prevTasks) =>
+            prevTasks.map((prevTask) =>
+                prevTask.id === event?.id ? { ...event, start, end } : prevTask
             )
         );
         delete event.sourceResource;
@@ -39,19 +37,19 @@ export const DragAndDrop = () => {
         event.start = formatDate(start);
         event.end = formatDate(end);
 
-        editEvent(event.id, event);
+        editTask(event.id, event);
     };
 
     useEffect(() => {
-        getEvents().then((data) => {
-            if (data) setEvents(data);
+        getTasks().then((data) => {
+            if (data) setTasks(data);
         });
     }, []);
     return (
         <DnDCalendar
-            events={events}
+            events={tasks}
             localizer={localizer}
-            onEventDrop={onChangeEventItem}
+            onEventDrop={onChangeTaskItem}
             className='m-4 sm:m-8 md:m-12 lg:m-16 xl:m-20 2xl:m-24'
             style={{ height: 500 }}
             views={['month', 'day', 'week']}

@@ -1,7 +1,7 @@
 import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { firestore } from '../api/firebase';
 
-export interface EventItem {
+export interface TaskItem {
     sourceResource?: string;
     start: Date | string;
     end: Date | string;
@@ -12,7 +12,7 @@ export interface EventItem {
 
 const eventsCollectionRef = collection(firestore, 'events');
 
-export const getEvents = async () => {
+export const getTasks = async () => {
     try {
         const data = await getDocs(eventsCollectionRef);
         const filteredData = data.docs.map((doc) => ({
@@ -20,13 +20,13 @@ export const getEvents = async () => {
             id: doc.id,
             isDraggable: true,
         }));
-        return filteredData as EventItem[];
+        return filteredData as TaskItem[];
     } catch (err) {
         console.error(err);
     }
 };
 
-export const editEvent = async (eventId: string, event: Partial<EventItem>) => {
+export const editTask = async (eventId: string, event: Partial<TaskItem>) => {
     const eventRef = doc(firestore, 'events', eventId);
     try {
         await updateDoc(eventRef, event);
