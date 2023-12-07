@@ -7,7 +7,7 @@ interface IButton {
 export const Button = ({ title, handleClick, type }: IButton) => {
     return (
         <button
-            className='my-[20px] rounded-[5px] bg-greenLight p-[5px] text-white'
+            className='my-[20px] rounded-[20px] bg-greenLight p-[10px] text-white'
             onClick={handleClick}
             type={type}
         >

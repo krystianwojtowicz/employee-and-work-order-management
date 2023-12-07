@@ -20,10 +20,10 @@ export default function Home() {
     };
 
     useEffect(() => {
-        if (notifications.length > 0) {
+        if (notifications && notifications.length > 0) {
             notify();
         }
-    });
+    }, []);
     return (
         <div className='mt-[100px]'>
             <DragAndDrop />

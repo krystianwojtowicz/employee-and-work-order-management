@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { createUser, signUpWithEmail } from '../../api/users';
 import { Person } from '../../helpers/enums';
 import { Button } from '../components/Button';
@@ -44,6 +45,7 @@ export default function SignUp() {
         useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
+    const router = useRouter();
 
     useEffect(() => {
         if (arePasswordsTheSame) {
@@ -55,12 +57,9 @@ export default function SignUp() {
         const { email, password, passwordConfirmation, ...rest } = data;
         const dataWithoutPassword = { email, ...rest };
         try {
-            const id = await signUpWithEmail(email, password).then(
-                (id: string) => {
-                    return id;
-                }
-            );
-            createUser(dataWithoutPassword, id);
+            const id = await signUpWithEmail(email, password);
+            await createUser(dataWithoutPassword, id);
+            router.push('/login');
         } catch (error: any) {
             setError(error.message);
         }

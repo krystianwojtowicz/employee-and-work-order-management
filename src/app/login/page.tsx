@@ -103,6 +103,12 @@ export default function LogIn() {
                         </span>
                     )}
                 </form>
+                <div className='flex justify-center'>
+                    <Button
+                        title='Do not have an account yet?'
+                        handleClick={() => router.push('/signup')}
+                    ></Button>
+                </div>
             </FormWrapper>
         </>
     );
