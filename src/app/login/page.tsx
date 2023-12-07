@@ -38,12 +38,12 @@ export default function LogIn() {
         try {
             const userData = await getUser(email);
             const { emailOfYourBoss, notifications } = userData;
-            // const usersBossData = await getUser(emailOfYourBoss);
-            // const { notificationsOfBoss } = usersBossData;
+            const usersBossData = await getUser(emailOfYourBoss);
+            const { notificationsOfBoss } = usersBossData;
 
-            // dispatch(
-            //     setDataOfUsersBoss({ emailOfYourBoss, notificationsOfBoss })
-            // );
+            dispatch(
+                setDataOfUsersBoss({ emailOfYourBoss, notificationsOfBoss })
+            );
             dispatch(setUserData({ notifications, email }));
 
             await signInWithEmail(email, password);

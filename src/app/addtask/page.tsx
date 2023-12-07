@@ -32,12 +32,11 @@ export default function AddTask() {
     const notificationsOfBoss = useSelector(
         (state: RootState) => state.users.notificationsOfBoss
     );
-    console.log(emailOfBoss, notificationsOfBoss);
     const onSubmit = async (data: Task): Promise<void> => {
         try {
-            // const id = await addTask(data);
+            const id = await addTask(data);
 
-            // handleSavePhoto(id, imgUpload);
+            handleSavePhoto(id, imgUpload);
             updateUserByEmail(
                 emailOfBoss,
                 data.nameOfTask,
