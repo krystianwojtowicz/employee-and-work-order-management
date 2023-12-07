@@ -41,8 +41,8 @@ export const getUser = async (email: string) => {
 
 export const updateUserByEmail = async (
     email: string,
-    notification: string,
-    notifications: string[]
+    notification?: string,
+    notifications?: string[]
 ) => {
     try {
         const usersCollection = collection(firestore, 'users');
@@ -58,12 +58,16 @@ export const updateUserByEmail = async (
 
         const userDocRef = doc(usersCollection, userId);
 
-        if (notifications.length > 0) {
-            await updateDoc(userDocRef, {
-                notifications: arrayUnion(notification),
-            });
+        if (notification !== undefined) {
+            if (notifications && notifications.length > 0) {
+                await updateDoc(userDocRef, {
+                    notifications: arrayUnion(notification),
+                });
+            } else {
+                await updateDoc(userDocRef, { notifications: [notification] });
+            }
         } else {
-            await updateDoc(userDocRef, { notifications: [notification] });
+            await updateDoc(userDocRef, { notifications: [] });
         }
     } catch (error) {
         throw error;

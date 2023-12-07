@@ -44,7 +44,7 @@ export default function LogIn() {
             // dispatch(
             //     setDataOfUsersBoss({ emailOfYourBoss, notificationsOfBoss })
             // );
-            dispatch(setUserData(notifications));
+            dispatch(setUserData({ notifications, email }));
 
             await signInWithEmail(email, password);
             router.push('/home');
