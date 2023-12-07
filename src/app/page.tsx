@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 
 export default function Home() {
     useEffect(() => {
-        redirect('/addtask');
+        redirect('/login');
     }, []);
     return <>{null}</>;
 }
