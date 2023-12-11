@@ -11,5 +11,7 @@ export enum Description {
     NAME_OF_TASK = 'title',
     DESCRIPTION = 'description',
     START = 'start',
-    End = 'end',
+    START_HOUR = 'startHour',
+    END = 'end',
+    END_HOUR = 'endHour',
 }

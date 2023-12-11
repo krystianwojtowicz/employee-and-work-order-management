@@ -52,7 +52,7 @@ export const Navbar = () => {
                                 {/* {boss && ( */}
                                 <li className='border-b-2 border-purple-900 py-4 pb-4 text-center text-xl uppercase text-white hover:bg-purple-900  md:border-b-0  md:px-6  md:hover:bg-transparent md:hover:text-purple-600'>
                                     <Link
-                                        href='tasks'
+                                        href='/tasks'
                                         onClick={() => setNav(!nav)}
                                     >
                                         tasks
@@ -63,7 +63,7 @@ export const Navbar = () => {
                                     <> */}
                                 <li className='border-b-2 border-purple-900 py-4 pb-4 text-center text-xl uppercase text-white hover:bg-purple-900  md:border-b-0  md:px-6  md:hover:bg-transparent md:hover:text-purple-600'>
                                     <Link
-                                        href='addtask'
+                                        href='/addtask'
                                         onClick={() => setNav(!nav)}
                                     >
                                         add task
@@ -71,7 +71,7 @@ export const Navbar = () => {
                                 </li>
                                 <li className='border-b-2 border-purple-900 px-6 py-4 pb-4 text-center text-xl  uppercase text-white  hover:bg-purple-600  md:border-b-0  md:hover:bg-transparent md:hover:text-purple-600'>
                                     <Link
-                                        href='home'
+                                        href='/home'
                                         onClick={() => setNav(!nav)}
                                     >
                                         home
@@ -81,7 +81,7 @@ export const Navbar = () => {
                                 )} */}
                                 <li className='border-b-2 border-purple-900 px-6 py-4 pb-4 text-center text-xl  uppercase text-white  hover:bg-purple-600  md:border-b-0  md:hover:bg-transparent md:hover:text-purple-600'>
                                     <Link
-                                        href='login'
+                                        href='/login'
                                         onClick={() => setNav(!nav)}
                                     >
                                         log in
