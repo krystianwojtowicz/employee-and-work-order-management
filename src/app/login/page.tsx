@@ -6,10 +6,10 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { setDataOfUsersBoss, setUserData } from '@/store/usersSlice';
 import { getUser, signInWithEmail } from '../../api/users';
+import { Button } from '../../components/Button';
+import { FormWrapper } from '../../components/FormWrapper';
+import { TextInput } from '../../components/TextInput';
 import { Person } from '../../helpers/enums';
-import { Button } from '../components/Button';
-import { FormWrapper } from '../components/FormWrapper';
-import { TextInput } from '../components/TextInput';
 
 interface FormValues {
     email: string;
@@ -37,14 +37,14 @@ export default function LogIn() {
 
         try {
             const userData = await getUser(email);
-            const { emailOfYourBoss, notifications } = userData;
+            const { emailOfYourBoss, notifications, boss } = userData;
             const usersBossData = await getUser(emailOfYourBoss);
             const { notificationsOfBoss } = usersBossData;
 
             dispatch(
                 setDataOfUsersBoss({ emailOfYourBoss, notificationsOfBoss })
             );
-            dispatch(setUserData({ notifications, email }));
+            dispatch(setUserData({ notifications, email, boss }));
 
             await signInWithEmail(email, password);
             router.push('/home');

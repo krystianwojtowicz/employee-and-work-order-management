@@ -7,6 +7,7 @@ import {
     arrayUnion,
     collection,
     doc,
+    getDoc,
     getDocs,
     query,
     setDoc,
@@ -23,6 +24,7 @@ interface User {
     emailOfYourBoss: string;
     notifications?: string[];
     id?: string;
+    boss: boolean;
 }
 
 export const getUser = async (email: string) => {
@@ -38,6 +40,34 @@ export const getUser = async (email: string) => {
         throw error;
     }
 };
+
+// export const getUserById = async (userId: string) => {
+//     try {
+//         const usersCollection = collection(firestore, 'users');
+//         const userDoc = await getDoc(doc(usersCollection, userId));
+
+//         if (userDoc.exists()) {
+//             const userData = userDoc.data();
+//             return userData;
+//         } else {
+//             throw new Error('User not found');
+//         }
+//     } catch (error) {
+//         throw error;
+//     }
+// };
+// export const getUserById = async (id: string): Promise<User> => {
+//     if (id) {
+//         const userDoc = doc(collection(firestore, 'users'), id);
+//         const userSnapshot = await getDoc(userDoc);
+//         if (userSnapshot.exists()) {
+//             return userSnapshot.data() as User;
+//         }
+//         throw new Error('User not found');
+//     } else {
+//         throw new Error('User not found');
+//     }
+// };
 
 export const updateUserByEmail = async (
     email: string,

@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { createUser, signUpWithEmail } from '../../api/users';
+import { Button } from '../../components/Button';
+import { CustomCheckbox } from '../../components/CustomCheckbox';
+import { FormWrapper } from '../../components/FormWrapper';
+import { TextInput } from '../../components/TextInput';
 import { Person } from '../../helpers/enums';
-import { Button } from '../components/Button';
-import { FormWrapper } from '../components/FormWrapper';
-import { TextInput } from '../components/TextInput';
 
 interface FormValues {
     name: string;
@@ -18,6 +19,7 @@ interface FormValues {
     password: string;
     passwordConfirmation: string;
     id: string;
+    boss: boolean;
 }
 
 export default function SignUp() {
@@ -36,10 +38,12 @@ export default function SignUp() {
             emailOfYourBoss: '',
             password: '',
             passwordConfirmation: '',
+            boss: false,
         },
     });
     const password = watch('password');
     const passwordConfirmation = watch('passwordConfirmation');
+    const boss = watch('boss');
 
     const [arePasswordsTheSame, setArePasswordsTheSame] =
         useState<boolean>(false);
@@ -171,6 +175,30 @@ export default function SignUp() {
                             This filed is required
                         </span>
                     )}
+                    <span className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>
+                        Supervisor
+                    </span>
+                    <Controller
+                        name={Person.BOSS}
+                        control={control}
+                        defaultValue={false}
+                        render={() => (
+                            <CustomCheckbox
+                                variant={'square'}
+                                isChecked={boss}
+                                onCheckboxChange={function (
+                                    isChecked: boolean
+                                ): void {
+                                    throw new Error(
+                                        'Function not implemented.'
+                                    );
+                                }}
+                                register={register(Person.BOSS)}
+                            />
+                        )}
+                    />
+
+                    {/* musi robic end i start a jak zmieni task i tylko bos moze to robic to powiadamia technika, tyko bos moze edytowac, wylogowanie/zrobilem tasks root, update user profile,  */}
                     <Controller
                         name='password'
                         control={control}

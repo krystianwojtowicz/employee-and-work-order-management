@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import { updateUserByEmail } from '@/api/users';
 import { RootState } from '@/store/store';
-import { DragAndDrop } from '../components/DragAndDrop';
+import { DragAndDrop } from '../../components/DragAndDrop';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {

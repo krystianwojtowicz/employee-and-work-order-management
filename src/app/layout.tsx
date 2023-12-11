@@ -1,7 +1,7 @@
 'use client';
 
+import { Navbar } from '../components/Navbar';
 import { ReduxProvider } from '../Providers';
-import { Navbar } from './components/Navbar';
 import './globals.css';
 
 export default function RootLayout({

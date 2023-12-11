@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import Link from 'next/link';
-import { RootState } from '@/store/store';
+import { RootState } from '../store/store';
 
 export const Navbar = () => {
     const [nav, setNav] = useState(false);
     const email = useSelector((state: RootState) => state.users.email);
+    const boss = useSelector((state: RootState) => state.users.boss);
     return (
         <div>
             <nav className='fixed left-0 right-0 top-0 z-10 w-full bg-black'>
@@ -48,27 +49,37 @@ export const Navbar = () => {
                             }`}
                         >
                             <ul className='h-screen items-center justify-center md:flex md:h-auto '>
-                                {email && (
-                                    <>
-                                        <li className='border-b-2 border-purple-900 py-4 pb-4 text-center text-xl text-white hover:bg-purple-900  md:border-b-0  md:px-6  md:hover:bg-transparent md:hover:text-purple-600'>
-                                            <Link
-                                                href='addtask'
-                                                onClick={() => setNav(!nav)}
-                                            >
-                                                add task
-                                            </Link>
-                                        </li>
-                                        <li className='border-b-2 border-purple-900 px-6 py-4 pb-4 text-center  text-xl text-white  hover:bg-purple-600  md:border-b-0  md:hover:bg-transparent md:hover:text-purple-600'>
-                                            <Link
-                                                href='home'
-                                                onClick={() => setNav(!nav)}
-                                            >
-                                                home
-                                            </Link>
-                                        </li>
-                                    </>
-                                )}
-                                <li className='border-b-2 border-purple-900 px-6 py-4 pb-4 text-center  text-xl text-white  hover:bg-purple-600  md:border-b-0  md:hover:bg-transparent md:hover:text-purple-600'>
+                                {/* {boss && ( */}
+                                <li className='border-b-2 border-purple-900 py-4 pb-4 text-center text-xl uppercase text-white hover:bg-purple-900  md:border-b-0  md:px-6  md:hover:bg-transparent md:hover:text-purple-600'>
+                                    <Link
+                                        href='tasks'
+                                        onClick={() => setNav(!nav)}
+                                    >
+                                        tasks
+                                    </Link>
+                                </li>
+                                {/* )} */}
+                                {/* {email && (
+                                    <> */}
+                                <li className='border-b-2 border-purple-900 py-4 pb-4 text-center text-xl uppercase text-white hover:bg-purple-900  md:border-b-0  md:px-6  md:hover:bg-transparent md:hover:text-purple-600'>
+                                    <Link
+                                        href='addtask'
+                                        onClick={() => setNav(!nav)}
+                                    >
+                                        add task
+                                    </Link>
+                                </li>
+                                <li className='border-b-2 border-purple-900 px-6 py-4 pb-4 text-center text-xl  uppercase text-white  hover:bg-purple-600  md:border-b-0  md:hover:bg-transparent md:hover:text-purple-600'>
+                                    <Link
+                                        href='home'
+                                        onClick={() => setNav(!nav)}
+                                    >
+                                        home
+                                    </Link>
+                                </li>
+                                {/* </>
+                                )} */}
+                                <li className='border-b-2 border-purple-900 px-6 py-4 pb-4 text-center text-xl  uppercase text-white  hover:bg-purple-600  md:border-b-0  md:hover:bg-transparent md:hover:text-purple-600'>
                                     <Link
                                         href='login'
                                         onClick={() => setNav(!nav)}
@@ -76,7 +87,7 @@ export const Navbar = () => {
                                         log in
                                     </Link>
                                 </li>
-                                <li className='border-b-2 border-purple-900 px-6 py-4 pb-4 text-center  text-xl text-white  hover:bg-purple-600  md:border-b-0  md:hover:bg-transparent md:hover:text-purple-600'>
+                                <li className='border-b-2 border-purple-900 px-6 py-4 pb-4 text-center text-xl  uppercase text-white  hover:bg-purple-600  md:border-b-0  md:hover:bg-transparent md:hover:text-purple-600'>
                                     <Link
                                         href='signup'
                                         onClick={() => setNav(!nav)}

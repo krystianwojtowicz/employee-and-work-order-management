@@ -5,6 +5,7 @@ export interface UsersState {
     notificationsOfBoss: string[];
     notifications: string[];
     email: string;
+    boss: boolean;
 }
 
 const initialState: UsersState = {
@@ -12,6 +13,7 @@ const initialState: UsersState = {
     notificationsOfBoss: [],
     notifications: [],
     email: '',
+    boss: false,
 };
 
 export const usersSlice = createSlice({
@@ -25,6 +27,7 @@ export const usersSlice = createSlice({
         setUserData: (state, action) => {
             state.notifications = action.payload.notifications;
             state.email = action.payload.email;
+            state.boss = action.payload.boss;
         },
     },
 });

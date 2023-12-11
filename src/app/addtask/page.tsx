@@ -3,14 +3,16 @@
 import { ChangeEvent, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { updateUserByEmail } from '@/api/users';
-import { addTask, handleSavePhoto, Task } from '../../api/tasks';
+import { addTask, TaskItem } from '../../api/tasks';
+import { handleSavePhoto } from '../../api/tasks';
+import { Button } from '../../components/Button';
+import { FormWrapper } from '../../components/FormWrapper';
+import { TextArea } from '../../components/TextArea';
+import { TextInput } from '../../components/TextInput';
 import { Description } from '../../helpers/enums';
 import type { RootState } from '../../store/store';
-import { Button } from '../components/Button';
-import { FormWrapper } from '../components/FormWrapper';
-import { TextArea } from '../components/TextArea';
-import { TextInput } from '../components/TextInput';
 
 export default function AddTask() {
     const {
@@ -18,9 +20,9 @@ export default function AddTask() {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<Task>({
+    } = useForm<TaskItem>({
         defaultValues: {
-            nameOfTask: '',
+            title: '',
             description: '',
         },
     });
@@ -32,16 +34,20 @@ export default function AddTask() {
     const notificationsOfBoss = useSelector(
         (state: RootState) => state.users.notificationsOfBoss
     );
-    const onSubmit = async (data: Task): Promise<void> => {
+    const router = useRouter();
+
+    const onSubmit = async (data: TaskItem): Promise<void> => {
         try {
+            data.isDraggable = true;
+            data.end = '';
+            data.start = '';
+            data.email = emailOfBoss;
+
             const id = await addTask(data);
 
             handleSavePhoto(id, imgUpload);
-            updateUserByEmail(
-                emailOfBoss,
-                data.nameOfTask,
-                notificationsOfBoss
-            );
+            updateUserByEmail(emailOfBoss, data.title, notificationsOfBoss);
+            router.push('/home');
         } catch (error: any) {
             setError(error.message);
         }
@@ -77,7 +83,7 @@ export default function AddTask() {
                             />
                         )}
                     />
-                    {errors?.nameOfTask && (
+                    {errors?.title && (
                         <span className='mt-[5px] text-xs text-red'>
                             This filed is required
                         </span>

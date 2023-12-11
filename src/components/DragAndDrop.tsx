@@ -5,9 +5,11 @@ import {
     stringOrDate,
 } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
-import { editTask, getTasks, TaskItem } from '../../api/events';
-import { formatDate } from '../../helpers/formatDate';
+import { editTask, getTasks, TaskItem } from '../api/tasks';
+import { formatDate } from '../helpers/formatDate';
+import { setTasksFromDB } from '../store/tasksSlice';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -17,6 +19,7 @@ const DnDCalendar = withDragAndDrop<TaskItem>(BigCalendar);
 
 export const DragAndDrop = () => {
     const [tasks, setTasks] = useState<TaskItem[]>([]);
+    const dispatch = useDispatch();
 
     const onChangeTaskItem = ({
         event,
@@ -42,7 +45,10 @@ export const DragAndDrop = () => {
 
     useEffect(() => {
         getTasks().then((data) => {
-            if (data) setTasks(data);
+            if (data) {
+                setTasks(data);
+                dispatch(setTasksFromDB(data));
+            }
         });
     }, []);
     return (
