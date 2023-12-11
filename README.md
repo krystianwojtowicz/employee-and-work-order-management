@@ -1,5 +1,5 @@
 # Features
-- Create, login users, add events, edit events dragging them on a calendar
+- Create, login users, add events, edit events dragging them on a calendar, you can add krystian1wojtowicz@gmail.com as an e-mail of boss, to make sure everything will be ok.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
