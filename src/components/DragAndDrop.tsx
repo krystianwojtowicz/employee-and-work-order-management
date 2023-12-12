@@ -19,14 +19,8 @@ export const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop<TaskItem>(BigCalendar);
 
 export const DragAndDrop = () => {
-    const bool = true;
-    // const [tasks, setTasks] = useState([]);
-    // const tasks = useSelector((state: RootState) =>
-    //     state.tasks.tasks.filter((task) => !task.done)
-    // );
     const tasks = useSelector((state: RootState) => state.tasks.tasks);
-    // tasks.map((task) => (task.isDraggable = false));
-    // console.log(tasks);
+    const tasksToEdit = tasks.map((task) => structuredClone(task));
     const dispatch = useDispatch();
 
     const onChangeTaskItem = ({
@@ -43,7 +37,7 @@ export const DragAndDrop = () => {
         event.start = formatDate(start);
         event.end = formatDate(end);
 
-        // editTask(event.id, event);
+        editTask(event.id, event);
     };
 
     useEffect(() => {
@@ -55,7 +49,7 @@ export const DragAndDrop = () => {
     }, []);
     return (
         <DnDCalendar
-            events={tasks}
+            events={tasksToEdit}
             localizer={localizer}
             onEventDrop={onChangeTaskItem}
             className='m-4 sm:m-8 md:m-12 lg:m-16 xl:m-20 2xl:m-24'
