@@ -16,10 +16,11 @@ export interface TaskItem {
     end: string;
     id: string;
     title: string;
-    isDraggable: boolean;
+    isDraggable?: boolean;
     description: string;
     photoUrl?: string;
-    email: string;
+    emailOfBoss: string;
+    emailOfTechnician?: string;
     done?: boolean;
 }
 
@@ -47,7 +48,6 @@ export const getTasks = async () => {
         const filteredData = data.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
-            isDraggable: true,
         }));
         return filteredData as TaskItem[];
     } catch (error: any) {

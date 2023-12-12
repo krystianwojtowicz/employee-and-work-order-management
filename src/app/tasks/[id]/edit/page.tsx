@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { TextInput } from '@/components/TextInput';
 import { editTask } from '../../../../api/tasks';
 import { Button } from '../../../../components/Button';
 import { Checkbox } from '../../../../components/Checkbox';
 import { FormWrapper } from '../../../../components/FormWrapper';
-import { Description } from '../../../../helpers/enums';
+import { Task } from '../../../../helpers/enums';
 import { RootState } from '../../../../store/store';
 import { TaskParam } from '../page';
 
@@ -17,11 +18,12 @@ interface IUpdateTask {
     end: string;
     endHour: string;
     done: boolean;
+    emailOfTechnician: string;
 }
 
 // ToDo add possibility of editing title, desc or even picture or pictures and even uploading many pics in addtask
 
-/* musi robic end i start a jak zmieni task i tylko bos moze to robic to powiadamia technika, tyko bos moze edytowac, wylogowanie/zrobilem edit jako oddzielna strone */
+/* jak zmieni task i tylko bos moze to robic to powiadamia technika,, wylogowanie/ */
 export default function EditTask({ params }: TaskParam) {
     const task = useSelector((state: RootState) =>
         state.tasks.tasks.find((task) => task.id == params.id)
@@ -32,6 +34,7 @@ export default function EditTask({ params }: TaskParam) {
         register,
         handleSubmit,
         control,
+        watch,
         formState: { errors },
     } = useForm<IUpdateTask>({
         defaultValues: {
@@ -40,17 +43,27 @@ export default function EditTask({ params }: TaskParam) {
             end: '',
             endHour: '',
             done: false,
+            emailOfTechnician: '',
         },
     });
+    const done = watch('done');
 
     const onSubmit = async (data: IUpdateTask): Promise<void> => {
-        const { start, end, startHour, endHour } = data;
+        const { start, end, startHour, endHour, emailOfTechnician } = data;
+        const dataToUpdate = boss
+            ? {
+                  start: `${start}T${startHour}:00`,
+                  end: `${end}T${endHour}:00`,
+                  emailOfTechnician,
+                  done,
+              }
+            : {
+                  emailOfTechnician,
+                  done,
+              };
         try {
             if (task) {
-                await editTask(task.id, {
-                    start: `${start}T${startHour}:00`,
-                    end: `${end}T${endHour}:00`,
-                });
+                await editTask(task.id, dataToUpdate);
             }
         } catch (error: any) {
             setError(error.message);
@@ -62,17 +75,17 @@ export default function EditTask({ params }: TaskParam) {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {boss && (
                         <>
-                            <label className='mt-[10px] block font-[Inter] text-[16px] font-[500] text-greenDark'>
+                            <label className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>
                                 start date
                             </label>
                             <Controller
-                                name={Description.START}
+                                name={Task.START}
                                 control={control}
                                 rules={{ required: true }}
                                 render={() => (
                                     <input
                                         type='date'
-                                        {...register(Description.START)}
+                                        {...register(Task.START)}
                                     />
                                 )}
                             />
@@ -81,17 +94,17 @@ export default function EditTask({ params }: TaskParam) {
                                     This field is required
                                 </span>
                             )}
-                            <label className='mt-[10px] block font-[Inter] text-[16px] font-[500] text-greenDark'>
+                            <label className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>
                                 start hour
                             </label>
                             <Controller
-                                name={Description.START_HOUR}
+                                name={Task.START_HOUR}
                                 control={control}
                                 rules={{ required: true }}
                                 render={() => (
                                     <input
                                         type='time'
-                                        {...register(Description.START_HOUR)}
+                                        {...register(Task.START_HOUR)}
                                     />
                                 )}
                             />
@@ -100,17 +113,17 @@ export default function EditTask({ params }: TaskParam) {
                                     This field is required
                                 </span>
                             )}
-                            <label className='mt-[10px] block font-[Inter] text-[16px] font-[500] text-greenDark'>
+                            <label className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>
                                 end date
                             </label>
                             <Controller
-                                name={Description.END}
+                                name={Task.END}
                                 control={control}
                                 rules={{ required: true }}
                                 render={() => (
                                     <input
                                         type='date'
-                                        {...register(Description.END)}
+                                        {...register(Task.END)}
                                     />
                                 )}
                             />
@@ -119,17 +132,17 @@ export default function EditTask({ params }: TaskParam) {
                                     This field is required
                                 </span>
                             )}
-                            <label className='mt-[10px] block font-[Inter] text-[16px] font-[500] text-greenDark'>
+                            <label className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>
                                 end hour
                             </label>
                             <Controller
-                                name={Description.END_HOUR}
+                                name={Task.END_HOUR}
                                 control={control}
                                 rules={{ required: true }}
                                 render={() => (
                                     <input
                                         type='time'
-                                        {...register(Description.END_HOUR)}
+                                        {...register(Task.END_HOUR)}
                                     />
                                 )}
                             />
@@ -138,25 +151,47 @@ export default function EditTask({ params }: TaskParam) {
                                     This field is required
                                 </span>
                             )}
+                            <Controller
+                                name={Task.EMAIL_OF_TECHNICIAN}
+                                control={control}
+                                rules={{ required: true }}
+                                render={() => (
+                                    <TextInput
+                                        placeholder={
+                                            'Type e-mail of technician'
+                                        }
+                                        label={'E-mail of technician'}
+                                        type={'text'}
+                                        register={register(
+                                            Task.EMAIL_OF_TECHNICIAN
+                                        )}
+                                    />
+                                )}
+                            />
+                            {errors?.emailOfTechnician && (
+                                <span className='mt-[5px] text-xs text-red'>
+                                    This filed is required
+                                </span>
+                            )}
                         </>
                     )}
-                    <span className='mt-[10px] block font-[Inter] text-[16px] font-[500] text-greenDark'>
+                    <span className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>
                         Done
                     </span>
                     <Controller
-                        name={Description.DONE}
+                        name={Task.DONE}
                         control={control}
                         defaultValue={false}
                         render={() => (
                             <Checkbox
                                 variant={'square'}
-                                isChecked={boss}
+                                isChecked={done}
                                 onCheckboxChange={function (): void {
                                     throw new Error(
                                         'Function not implemented.'
                                     );
                                 }}
-                                register={register(Description.DONE)}
+                                register={register(Task.DONE)}
                             />
                         )}
                     />

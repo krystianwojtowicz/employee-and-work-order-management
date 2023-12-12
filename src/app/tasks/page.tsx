@@ -6,7 +6,14 @@ import { RootState } from '@/store/store';
 import { Button } from '../../components/Button';
 
 export default function Tasks() {
-    const tasks = useSelector((state: RootState) => state.tasks.tasks);
+    const boss = useSelector((state: RootState) => state.users.boss);
+    const email = useSelector((state: RootState) => state.users.email);
+    const tasks = useSelector((state: RootState) =>
+        state.tasks.tasks.filter((task) =>
+            boss ? task.emailOfBoss == email : task.emailOfTechnician == email
+        )
+    );
+    // const tasks = useSelector((state: RootState) => state.tasks.tasks);
     const taskMaxLength = 40;
     const router = useRouter();
     return (

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Calendar as BigCalendar,
     momentLocalizer,
@@ -19,7 +19,14 @@ export const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop<TaskItem>(BigCalendar);
 
 export const DragAndDrop = () => {
+    const bool = true;
+    // const [tasks, setTasks] = useState([]);
+    // const tasks = useSelector((state: RootState) =>
+    //     state.tasks.tasks.filter((task) => !task.done)
+    // );
     const tasks = useSelector((state: RootState) => state.tasks.tasks);
+    // tasks.map((task) => (task.isDraggable = false));
+    // console.log(tasks);
     const dispatch = useDispatch();
 
     const onChangeTaskItem = ({
@@ -36,11 +43,11 @@ export const DragAndDrop = () => {
         event.start = formatDate(start);
         event.end = formatDate(end);
 
-        editTask(event.id, event);
+        // editTask(event.id, event);
     };
 
     useEffect(() => {
-        getTasks().then((data) => {
+        getTasks().then((data: any) => {
             if (data) {
                 dispatch(setTasksFromDB(data));
             }

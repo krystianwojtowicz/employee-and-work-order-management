@@ -11,7 +11,7 @@ import { Button } from '../../components/Button';
 import { FormWrapper } from '../../components/FormWrapper';
 import { TextArea } from '../../components/TextArea';
 import { TextInput } from '../../components/TextInput';
-import { Description } from '../../helpers/enums';
+import { Task } from '../../helpers/enums';
 import type { RootState } from '../../store/store';
 
 export default function AddTask() {
@@ -38,10 +38,10 @@ export default function AddTask() {
 
     const onSubmit = async (data: TaskItem): Promise<void> => {
         try {
-            data.isDraggable = true;
+            data.isDraggable = false;
             data.end = '';
             data.start = '';
-            data.email = emailOfBoss;
+            data.emailOfBoss = emailOfBoss;
 
             const id = await addTask(data);
 
@@ -70,7 +70,7 @@ export default function AddTask() {
                         onChange={handleChange}
                     />
                     <Controller
-                        name={Description.NAME_OF_TASK}
+                        name={Task.NAME_OF_TASK}
                         control={control}
                         defaultValue=''
                         rules={{ required: true }}
@@ -79,7 +79,7 @@ export default function AddTask() {
                                 placeholder={'Type name of task'}
                                 label={'Title of task'}
                                 type={'text'}
-                                register={register(Description.NAME_OF_TASK)}
+                                register={register(Task.NAME_OF_TASK)}
                             />
                         )}
                     />
@@ -89,7 +89,7 @@ export default function AddTask() {
                         </span>
                     )}
                     <Controller
-                        name={Description.DESCRIPTION}
+                        name={Task.DESCRIPTION}
                         control={control}
                         defaultValue=''
                         rules={{ required: true }}
@@ -97,7 +97,7 @@ export default function AddTask() {
                             <TextArea
                                 placeholder={'Type description'}
                                 label={'Description'}
-                                register={register(Description.DESCRIPTION)}
+                                register={register(Task.DESCRIPTION)}
                             />
                         )}
                     />

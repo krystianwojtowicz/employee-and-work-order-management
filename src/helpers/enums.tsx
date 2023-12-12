@@ -8,7 +8,7 @@ export enum Person {
     TECHNICIAN = 'technician',
 }
 
-export enum Description {
+export enum Task {
     NAME_OF_TASK = 'title',
     DESCRIPTION = 'description',
     START = 'start',
@@ -16,4 +16,5 @@ export enum Description {
     END = 'end',
     END_HOUR = 'endHour',
     DONE = 'done',
+    EMAIL_OF_TECHNICIAN = 'emailOfTechnician',
 }
