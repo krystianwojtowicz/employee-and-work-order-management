@@ -5,6 +5,7 @@ export enum Person {
     EMAIL = 'email',
     EMAIL_OF_YOUR_BOSS = 'emailOfYourBoss',
     BOSS = 'boss',
+    TECHNICIAN = 'technician',
 }
 
 export enum Description {
@@ -14,4 +15,5 @@ export enum Description {
     START_HOUR = 'startHour',
     END = 'end',
     END_HOUR = 'endHour',
+    DONE = 'done',
 }

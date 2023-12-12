@@ -9,7 +9,7 @@ import {
     SquareIcon,
 } from '../assets/icons';
 
-interface ICustomCheckboxProps {
+interface ICheckboxProps {
     variant: 'square' | 'eye' | 'mark';
     isChecked: boolean;
     styleLabel?: string;
@@ -23,13 +23,13 @@ const MarkCheckBox = (checked: boolean) =>
     checked ? <MarkDoneIcon /> : <MarkIcon />;
 const DefaultCheckBox = (checked: boolean) =>
     checked ? <SquareCheckIcon /> : <SquareIcon />;
-export const CustomCheckbox = ({
+export const Checkbox = ({
     variant,
     isChecked,
     styleLabel,
     onCheckboxChange,
     register,
-}: ICustomCheckboxProps) => {
+}: ICheckboxProps) => {
     const currentVariantCheckbox = (variant: string) =>
         variant && variant === 'square'
             ? DefaultCheckBox(isChecked)

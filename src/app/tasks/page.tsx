@@ -20,7 +20,7 @@ export default function Tasks() {
                             : task.description}
                         <div className='ml-[10px] inline-block'>
                             <Button
-                                title='set dates'
+                                title='show details'
                                 handleClick={() =>
                                     router.push(`/tasks/${task.id}`)
                                 }

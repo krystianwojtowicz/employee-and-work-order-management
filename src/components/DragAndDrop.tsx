@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
     Calendar as BigCalendar,
     momentLocalizer,
     stringOrDate,
 } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { editTask, getTasks, TaskItem } from '../api/tasks';
 import { formatDate } from '../helpers/formatDate';
+import type { RootState } from '../store/store';
 import { setTasksFromDB } from '../store/tasksSlice';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,7 +19,7 @@ export const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop<TaskItem>(BigCalendar);
 
 export const DragAndDrop = () => {
-    const [tasks, setTasks] = useState<TaskItem[]>([]);
+    const tasks = useSelector((state: RootState) => state.tasks.tasks);
     const dispatch = useDispatch();
 
     const onChangeTaskItem = ({
@@ -30,11 +31,6 @@ export const DragAndDrop = () => {
         start: stringOrDate;
         end: stringOrDate;
     }) => {
-        setTasks((prevTasks) =>
-            prevTasks.map((prevTask) =>
-                prevTask.id === event?.id ? { ...event, start, end } : prevTask
-            )
-        );
         delete event.sourceResource;
 
         event.start = formatDate(start);
@@ -46,7 +42,6 @@ export const DragAndDrop = () => {
     useEffect(() => {
         getTasks().then((data) => {
             if (data) {
-                setTasks(data);
                 dispatch(setTasksFromDB(data));
             }
         });

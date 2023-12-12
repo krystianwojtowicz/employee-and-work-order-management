@@ -2,7 +2,7 @@
 
 import { Task } from '../../../components/Task';
 
-type TaskParam = {
+export type TaskParam = {
     params: {
         id: string;
     };

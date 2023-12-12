@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { createUser, signUpWithEmail } from '../../api/users';
 import { Button } from '../../components/Button';
-import { CustomCheckbox } from '../../components/CustomCheckbox';
+import { Checkbox } from '../../components/Checkbox';
 import { FormWrapper } from '../../components/FormWrapper';
 import { TextInput } from '../../components/TextInput';
 import { Person } from '../../helpers/enums';
@@ -20,6 +20,7 @@ interface FormValues {
     passwordConfirmation: string;
     id: string;
     boss: boolean;
+    technician: boolean;
 }
 
 export default function SignUp() {
@@ -39,11 +40,13 @@ export default function SignUp() {
             password: '',
             passwordConfirmation: '',
             boss: false,
+            technician: false,
         },
     });
     const password = watch('password');
     const passwordConfirmation = watch('passwordConfirmation');
     const boss = watch('boss');
+    const technician = watch('technician');
 
     const [arePasswordsTheSame, setArePasswordsTheSame] =
         useState<boolean>(false);
@@ -75,7 +78,7 @@ export default function SignUp() {
         const passwordsAreSame = password === passwordConfirmation;
         setArePasswordsTheSame(passwordsAreSame);
     };
-
+    console.log(technician);
     return (
         <>
             <FormWrapper title='sign up'>
@@ -83,7 +86,6 @@ export default function SignUp() {
                     <Controller
                         name={Person.NAME}
                         control={control}
-                        defaultValue=''
                         rules={{ required: true }}
                         render={() => (
                             <TextInput
@@ -102,7 +104,6 @@ export default function SignUp() {
                     <Controller
                         name={Person.LAST_NAME}
                         control={control}
-                        defaultValue=''
                         rules={{ required: true }}
                         render={() => (
                             <TextInput
@@ -121,7 +122,6 @@ export default function SignUp() {
                     <Controller
                         name={Person.POSITION}
                         control={control}
-                        defaultValue=''
                         rules={{ required: true }}
                         render={() => (
                             <TextInput
@@ -140,7 +140,6 @@ export default function SignUp() {
                     <Controller
                         name={Person.EMAIL}
                         control={control}
-                        defaultValue=''
                         rules={{ required: true }}
                         render={() => (
                             <TextInput
@@ -159,7 +158,6 @@ export default function SignUp() {
                     <Controller
                         name={Person.EMAIL_OF_YOUR_BOSS}
                         control={control}
-                        defaultValue=''
                         rules={{ required: true }}
                         render={() => (
                             <TextInput
@@ -176,19 +174,16 @@ export default function SignUp() {
                         </span>
                     )}
                     <span className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>
-                        Supervisor
+                        Boss
                     </span>
                     <Controller
                         name={Person.BOSS}
                         control={control}
-                        defaultValue={false}
                         render={() => (
-                            <CustomCheckbox
+                            <Checkbox
                                 variant={'square'}
                                 isChecked={boss}
-                                onCheckboxChange={function (
-                                    isChecked: boolean
-                                ): void {
+                                onCheckboxChange={function (): void {
                                     throw new Error(
                                         'Function not implemented.'
                                     );
@@ -197,12 +192,28 @@ export default function SignUp() {
                             />
                         )}
                     />
-
-                    {/* musi robic end i start a jak zmieni task i tylko bos moze to robic to powiadamia technika, tyko bos moze edytowac, wylogowanie/zrobilem tasks root, update user profile,  */}
+                    <span className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>
+                        Technician
+                    </span>
+                    <Controller
+                        name={Person.TECHNICIAN}
+                        control={control}
+                        render={() => (
+                            <Checkbox
+                                variant={'square'}
+                                isChecked={technician}
+                                onCheckboxChange={function (): void {
+                                    throw new Error(
+                                        'Function not implemented.'
+                                    );
+                                }}
+                                register={register(Person.TECHNICIAN)}
+                            />
+                        )}
+                    />
                     <Controller
                         name='password'
                         control={control}
-                        defaultValue=''
                         rules={{ required: true }}
                         render={() => (
                             <TextInput
@@ -221,7 +232,6 @@ export default function SignUp() {
                     <Controller
                         name='passwordConfirmation'
                         control={control}
-                        defaultValue=''
                         rules={{ required: true }}
                         render={() => (
                             <TextInput

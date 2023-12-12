@@ -1,34 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Description } from '@/helpers/enums';
-import { editTask, getTaskById, TaskItem } from '../api/tasks';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { getTaskById, TaskItem } from '../api/tasks';
 import { Button } from './Button';
 import 'react-datepicker/dist/react-datepicker.css';
 
-interface Dates {
-    start: '';
-    startHour: '';
-    end: '';
-    endHour: '';
-}
-
 export const Task = ({ taskId }: { taskId: string }) => {
+    const router = useRouter();
     const [task, setTask] = useState<TaskItem | null>(null);
-    const [error, setError] = useState<string>('');
-    const {
-        register,
-        handleSubmit,
-        control,
-        formState: { errors },
-    } = useForm<Dates>({
-        defaultValues: {
-            start: '',
-            startHour: '',
-            end: '',
-            endHour: '',
-        },
-    });
 
+    // ToDo take task from redux
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -43,20 +24,6 @@ export const Task = ({ taskId }: { taskId: string }) => {
         fetchUser();
     }, [taskId]);
 
-    const onSubmit = async (data: Dates): Promise<void> => {
-        const { start, end, startHour, endHour } = data;
-        try {
-            if (task) {
-                await editTask(task.id, {
-                    start: `${start}T${startHour}:00`,
-                    end: `${end}T${endHour}:00`,
-                });
-            }
-        } catch (error: any) {
-            setError(error.message);
-        }
-    };
-
     if (!task) {
         return <div className='mt-[80px]'>Loading task...</div>;
     }
@@ -65,89 +32,34 @@ export const Task = ({ taskId }: { taskId: string }) => {
             <main className='w-full max-w-screen-md p-4'>
                 <span>title: {task.title}</span>
                 <span className='mt-[10px] block'>
-                    description {task.description}
+                    description: {task.description}
                 </span>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <label className='mt-[10px] block'>start date</label>
-                    <Controller
-                        name={Description.START}
-                        control={control}
-                        defaultValue=''
-                        rules={{ required: true }}
-                        render={() => (
-                            <input
-                                type='date'
-                                {...register(Description.START)}
-                            />
-                        )}
+                <span className='mt-[10px] block'>
+                    start:{' '}
+                    {task.start
+                        ? `${task.start.slice(0, 10)} ${task.start.slice(11)}`
+                        : ''}
+                </span>
+                <span className='my-[10px] block'>
+                    end:{' '}
+                    {task.end
+                        ? `${task.end.slice(0, 10)} ${task.end.slice(11)}`
+                        : ''}
+                </span>
+                {task.photoUrl && (
+                    <Image
+                        src={task.photoUrl}
+                        alt='task'
+                        width={300}
+                        height={300}
                     />
-                    {errors.start && (
-                        <span className='block text-xs text-red'>
-                            This field is required
-                        </span>
-                    )}
-                    <label className='mt-[10px] block'>start hour</label>
-                    <Controller
-                        name={Description.START_HOUR}
-                        control={control}
-                        defaultValue=''
-                        rules={{ required: true }}
-                        render={() => (
-                            <input
-                                type='time'
-                                {...register(Description.START_HOUR)}
-                            />
-                        )}
+                )}
+                <div className='flex justify-center'>
+                    <Button
+                        title={'edit task'}
+                        handleClick={() => router.push(`${task.id}/edit`)}
                     />
-                    {errors.startHour && (
-                        <span className='block text-xs text-red'>
-                            This field is required
-                        </span>
-                    )}
-                    <label className='mt-[10px] block'>end date</label>
-                    <Controller
-                        name={Description.END}
-                        control={control}
-                        defaultValue=''
-                        rules={{ required: true }}
-                        render={() => (
-                            <input type='date' {...register(Description.END)} />
-                        )}
-                    />
-                    {errors.end && (
-                        <span className='block text-xs text-red'>
-                            This field is required
-                        </span>
-                    )}
-                    <label className='mt-[10px] block'>end hour</label>
-                    <Controller
-                        name={Description.END_HOUR}
-                        control={control}
-                        defaultValue=''
-                        rules={{ required: true }}
-                        render={() => (
-                            <input
-                                type='time'
-                                {...register(Description.END_HOUR)}
-                            />
-                        )}
-                    />
-                    {errors.endHour && (
-                        <span className='block text-xs text-red'>
-                            This field is required
-                        </span>
-                    )}
-                    <div className='flex justify-center'>
-                        <Button type='submit' title='edit task'></Button>
-                    </div>
-                    <div className='flex justify-center'>
-                        {error && (
-                            <span className='mt-[5px] w-full text-center text-xs text-red'>
-                                {error}
-                            </span>
-                        )}
-                    </div>
-                </form>
+                </div>
             </main>
         </div>
     );

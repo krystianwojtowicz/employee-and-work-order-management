@@ -12,20 +12,23 @@ import { firestore, storage } from '../api/firebase';
 
 export interface TaskItem {
     sourceResource?: string;
-    start: Date | string;
-    end: Date | string;
+    start: string;
+    end: string;
     id: string;
     title: string;
     isDraggable: boolean;
     description: string;
     photoUrl?: string;
     email: string;
+    done?: boolean;
 }
 
 const tasksCollectionRef = collection(firestore, 'tasks');
 
 export const addTask = async (data: TaskItem): Promise<string> => {
     try {
+        data.done = false;
+
         const docRef = await addDoc(tasksCollectionRef, data);
 
         const docId = docRef.id;
@@ -47,8 +50,8 @@ export const getTasks = async () => {
             isDraggable: true,
         }));
         return filteredData as TaskItem[];
-    } catch (err) {
-        console.error(err);
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 };
 
@@ -66,8 +69,8 @@ export const getTaskById = async (taskId: string) => {
         } else {
             throw new Error('Task not found');
         }
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 };
 

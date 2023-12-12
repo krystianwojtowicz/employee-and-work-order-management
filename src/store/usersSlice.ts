@@ -6,6 +6,7 @@ export interface UsersState {
     notifications: string[];
     email: string;
     boss: boolean;
+    technician: boolean;
 }
 
 const initialState: UsersState = {
@@ -14,6 +15,7 @@ const initialState: UsersState = {
     notifications: [],
     email: '',
     boss: false,
+    technician: false,
 };
 
 export const usersSlice = createSlice({
@@ -28,6 +30,7 @@ export const usersSlice = createSlice({
             state.notifications = action.payload.notifications;
             state.email = action.payload.email;
             state.boss = action.payload.boss;
+            state.technician = action.payload.technician;
         },
     },
 });

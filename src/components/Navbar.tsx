@@ -8,6 +8,9 @@ export const Navbar = () => {
     const [nav, setNav] = useState(false);
     const email = useSelector((state: RootState) => state.users.email);
     const boss = useSelector((state: RootState) => state.users.boss);
+    const technician = useSelector(
+        (state: RootState) => state.users.technician
+    );
     return (
         <div>
             <nav className='fixed left-0 right-0 top-0 z-10 w-full bg-black'>
@@ -49,7 +52,7 @@ export const Navbar = () => {
                             }`}
                         >
                             <ul className='h-screen items-center justify-center md:flex md:h-auto '>
-                                {/* {boss && ( */}
+                                {/* {(boss || technician) && ( */}
                                 <li className='border-b-2 border-purple-900 py-4 pb-4 text-center text-xl uppercase text-white hover:bg-purple-900  md:border-b-0  md:px-6  md:hover:bg-transparent md:hover:text-purple-600'>
                                     <Link
                                         href='/tasks'
@@ -59,7 +62,7 @@ export const Navbar = () => {
                                     </Link>
                                 </li>
                                 {/* )} */}
-                                {/* {email && (
+                                {/* {email ? (
                                     <> */}
                                 <li className='border-b-2 border-purple-900 py-4 pb-4 text-center text-xl uppercase text-white hover:bg-purple-900  md:border-b-0  md:px-6  md:hover:bg-transparent md:hover:text-purple-600'>
                                     <Link
@@ -78,7 +81,8 @@ export const Navbar = () => {
                                     </Link>
                                 </li>
                                 {/* </>
-                                )} */}
+                                ) : (
+                                    <> */}
                                 <li className='border-b-2 border-purple-900 px-6 py-4 pb-4 text-center text-xl  uppercase text-white  hover:bg-purple-600  md:border-b-0  md:hover:bg-transparent md:hover:text-purple-600'>
                                     <Link
                                         href='/login'
@@ -95,6 +99,8 @@ export const Navbar = () => {
                                         sign up
                                     </Link>
                                 </li>
+                                {/* </>
+                                )} */}
                             </ul>
                         </div>
                     </div>
