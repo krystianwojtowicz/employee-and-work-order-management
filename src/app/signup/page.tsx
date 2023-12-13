@@ -21,6 +21,7 @@ interface FormValues {
     id: string;
     boss: boolean;
     technician: boolean;
+    emailOfTechnician: string;
 }
 
 export default function SignUp() {
@@ -40,6 +41,7 @@ export default function SignUp() {
             password: '',
             passwordConfirmation: '',
             boss: false,
+            emailOfTechnician: '',
             technician: false,
         },
     });
@@ -211,6 +213,32 @@ export default function SignUp() {
                             />
                         )}
                     />
+                    {boss && (
+                        <>
+                            <Controller
+                                name={Person.EMAIL_OF_TECHNICIAN}
+                                control={control}
+                                rules={{ required: true }}
+                                render={() => (
+                                    <TextInput
+                                        placeholder={
+                                            'Type e-mail of your technician'
+                                        }
+                                        type={'text'}
+                                        label={'E-mail of your technician'}
+                                        register={register(
+                                            Person.EMAIL_OF_TECHNICIAN
+                                        )}
+                                    />
+                                )}
+                            />
+                            {errors?.emailOfTechnician && (
+                                <span className='mt-[5px] text-xs text-red'>
+                                    This filed is required
+                                </span>
+                            )}
+                        </>
+                    )}
                     <Controller
                         name='password'
                         control={control}

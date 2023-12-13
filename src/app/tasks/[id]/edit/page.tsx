@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { TextInput } from '@/components/TextInput';
+import { useRouter } from 'next/navigation';
+import { getUser, updateUserByEmail } from '@/api/users';
+// import { TextInput } from '@/components/TextInput';
 import { editTask } from '../../../../api/tasks';
 import { Button } from '../../../../components/Button';
 import { Checkbox } from '../../../../components/Checkbox';
@@ -18,17 +20,23 @@ interface IUpdateTask {
     end: string;
     endHour: string;
     done: boolean;
-    emailOfTechnician: string;
+    // emailOfTechnician: string;
 }
 
 // ToDo add possibility of editing title, desc or even picture or pictures and even uploading many pics in addtask
-
-/* jak zmieni task i tylko bos moze to robic to powiadamia technika,, wylogowanie/ */
+/*  wylogowanie/ */
 export default function EditTask({ params }: TaskParam) {
+    const router = useRouter();
+    const [notificationsOfTechnician, setNotificationsOfTechnician] = useState<
+        string[] | undefined
+    >(undefined);
     const task = useSelector((state: RootState) =>
         state.tasks.tasks.find((task) => task.id == params.id)
     );
     const boss = useSelector((state: RootState) => state.users.boss);
+    const emailOfTechnician = useSelector(
+        (state: RootState) => state.users.emailOfTechnician
+    );
     const [error, setError] = useState('');
     const {
         register,
@@ -43,27 +51,50 @@ export default function EditTask({ params }: TaskParam) {
             end: '',
             endHour: '',
             done: false,
-            emailOfTechnician: '',
+            // emailOfTechnician: '',
         },
     });
     const done = watch('done');
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Wywołanie funkcji getUser
+                const technicianData = await getUser(emailOfTechnician);
+                const { notifications } = technicianData;
+                setNotificationsOfTechnician(notifications);
+            } catch (error) {
+                console.error(
+                    'Błąd podczas pobierania danych o użytkowniku',
+                    error
+                );
+            }
+        };
+        fetchData();
+    }, []);
+
     const onSubmit = async (data: IUpdateTask): Promise<void> => {
-        const { start, end, startHour, endHour, emailOfTechnician } = data;
+        const { start, end, startHour, endHour } = data;
         const dataToUpdate = boss
             ? {
                   start: `${start}T${startHour}:00`,
                   end: `${end}T${endHour}:00`,
-                  emailOfTechnician,
                   done,
               }
             : {
-                  emailOfTechnician,
                   done,
               };
         try {
             if (task) {
                 await editTask(task.id, dataToUpdate);
+                if (boss) {
+                    await updateUserByEmail(
+                        emailOfTechnician,
+                        task.title,
+                        notificationsOfTechnician
+                    );
+                }
+                router.push('/tasks');
             }
         } catch (error: any) {
             setError(error.message);
@@ -151,7 +182,7 @@ export default function EditTask({ params }: TaskParam) {
                                     This field is required
                                 </span>
                             )}
-                            <Controller
+                            {/* <Controller
                                 name={Task.EMAIL_OF_TECHNICIAN}
                                 control={control}
                                 rules={{ required: true }}
@@ -160,8 +191,8 @@ export default function EditTask({ params }: TaskParam) {
                                         placeholder={
                                             'Type e-mail of technician'
                                         }
-                                        label={'E-mail of technician'}
                                         type={'text'}
+                                        label={'E-mail of your technician'}
                                         register={register(
                                             Task.EMAIL_OF_TECHNICIAN
                                         )}
@@ -172,7 +203,7 @@ export default function EditTask({ params }: TaskParam) {
                                 <span className='mt-[5px] text-xs text-red'>
                                     This filed is required
                                 </span>
-                            )}
+                            )} */}
                         </>
                     )}
                     <span className='mt-[10px] block font-[Inter] text-[14px] font-[500] text-greenDark'>

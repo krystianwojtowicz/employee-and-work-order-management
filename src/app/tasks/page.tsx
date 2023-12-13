@@ -13,7 +13,6 @@ export default function Tasks() {
             boss ? task.emailOfBoss == email : task.emailOfTechnician == email
         )
     );
-    // const tasks = useSelector((state: RootState) => state.tasks.tasks);
     const taskMaxLength = 40;
     const router = useRouter();
     return (

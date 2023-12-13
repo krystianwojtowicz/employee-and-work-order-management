@@ -31,6 +31,9 @@ export default function AddTask() {
     const emailOfBoss = useSelector(
         (state: RootState) => state.users.emailOfBoss
     );
+    const emailOfTechnician = useSelector(
+        (state: RootState) => state.users.emailOfTechnician
+    );
     const notificationsOfBoss = useSelector(
         (state: RootState) => state.users.notificationsOfBoss
     );
@@ -38,10 +41,11 @@ export default function AddTask() {
 
     const onSubmit = async (data: TaskItem): Promise<void> => {
         try {
-            data.isDraggable = false;
+            data.isDraggable = true;
             data.end = '';
             data.start = '';
             data.emailOfBoss = emailOfBoss;
+            data.emailOfTechnician = emailOfTechnician;
 
             const id = await addTask(data);
 

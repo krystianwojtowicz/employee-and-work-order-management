@@ -7,6 +7,7 @@ export interface UsersState {
     email: string;
     boss: boolean;
     technician: boolean;
+    emailOfTechnician: string;
 }
 
 const initialState: UsersState = {
@@ -16,6 +17,7 @@ const initialState: UsersState = {
     email: '',
     boss: false,
     technician: false,
+    emailOfTechnician: '',
 };
 
 export const usersSlice = createSlice({
@@ -31,6 +33,7 @@ export const usersSlice = createSlice({
             state.email = action.payload.email;
             state.boss = action.payload.boss;
             state.technician = action.payload.technician;
+            state.emailOfTechnician = action.payload.emailOfTechnician;
         },
     },
 });

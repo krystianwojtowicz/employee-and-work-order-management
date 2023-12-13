@@ -20,8 +20,8 @@ export interface TaskItem {
     description: string;
     photoUrl?: string;
     emailOfBoss: string;
-    emailOfTechnician?: string;
     done?: boolean;
+    emailOfTechnician?: string;
 }
 
 const tasksCollectionRef = collection(firestore, 'tasks');

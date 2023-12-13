@@ -37,15 +37,28 @@ export default function LogIn() {
 
         try {
             const userData = await getUser(email);
-            const { emailOfYourBoss, notifications, boss, technician } =
-                userData;
+            const {
+                emailOfYourBoss,
+                notifications,
+                boss,
+                technician,
+                emailOfTechnician,
+            } = userData;
             const usersBossData = await getUser(emailOfYourBoss);
             const { notificationsOfBoss } = usersBossData;
 
             dispatch(
                 setDataOfUsersBoss({ emailOfYourBoss, notificationsOfBoss })
             );
-            dispatch(setUserData({ notifications, email, boss, technician }));
+            dispatch(
+                setUserData({
+                    notifications,
+                    email,
+                    boss,
+                    technician,
+                    emailOfTechnician,
+                })
+            );
 
             await signInWithEmail(email, password);
             router.push('/home');

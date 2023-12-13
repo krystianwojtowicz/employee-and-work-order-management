@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
     Calendar as BigCalendar,
     momentLocalizer,
@@ -20,7 +20,10 @@ const DnDCalendar = withDragAndDrop<TaskItem>(BigCalendar);
 
 export const DragAndDrop = () => {
     const tasks = useSelector((state: RootState) => state.tasks.tasks);
-    const tasksToEdit = tasks.map((task) => structuredClone(task));
+    const boss = useSelector((state: RootState) => state.users.boss);
+    const tasksToEdit = tasks
+        .map((task) => structuredClone(task))
+        .filter((task) => !task.done);
     const dispatch = useDispatch();
 
     const onChangeTaskItem = ({
@@ -51,7 +54,7 @@ export const DragAndDrop = () => {
         <DnDCalendar
             events={tasksToEdit}
             localizer={localizer}
-            onEventDrop={onChangeTaskItem}
+            onEventDrop={boss ? onChangeTaskItem : undefined}
             className='m-4 sm:m-8 md:m-12 lg:m-16 xl:m-20 2xl:m-24'
             style={{ height: 500 }}
             views={['month', 'day', 'week']}

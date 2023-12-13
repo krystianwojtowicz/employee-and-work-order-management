@@ -6,6 +6,7 @@ export enum Person {
     EMAIL_OF_YOUR_BOSS = 'emailOfYourBoss',
     BOSS = 'boss',
     TECHNICIAN = 'technician',
+    EMAIL_OF_TECHNICIAN = 'emailOfTechnician',
 }
 
 export enum Task {
